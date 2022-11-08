@@ -12,7 +12,7 @@ function createCircle(coordinates, radius, numberOfEdges) {
     fs.writeFileSync("CoordinateCircle.json", JSON.stringify(polygon));
   });
 }
-const coordinates = [12.4922323, 41.8901987, 5]; //[lon, lat]
+const coordinates = [12.4922309, 41.8902102, 5]; //[lon, lat]
 const radius = 40; // in meters
 const numberOfEdges = 500; //optional that defaults to 32
 createCircle(coordinates, radius, numberOfEdges); // kết quả cho ra trong file CoordinateCircle.json
