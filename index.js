@@ -1,5 +1,5 @@
-const CircleToPolygon = require('circle-to-polygon');
-const fs = require('fs');
+import CircleToPolygon from "circle-to-polygon";
+import fs from "fs";
 
 /**
  * Tạo tạo độ hình tròn và viết kết quả vào file CoordinateCircle.json nếu doWrite là true
@@ -18,7 +18,7 @@ function createCircle(coordinates, radius, numberOfEdges, doWrite = true) {
       polygon.coordinates[0][index] = [...point, 0];
     }
   });
-  doWrite && fs.writeFileSync('CoordinateCircle.json', JSON.stringify(polygon));
+  doWrite && fs.writeFileSync("CoordinateCircle.json", JSON.stringify(polygon));
   return polygon;
 }
 /**
@@ -35,17 +35,17 @@ function createPillar(coordinates, radius, numberOfPillars, pillarRadius = 1) {
   for (let index = 0; index < circle.coordinates[0].length; ++index) {
     let pillar = createCircle(circle.coordinates[0][index], pillarRadius, 36);
     let feature = {
-      type: 'Feature',
-      properties: { 'Pillar Number': index + 1, height: 40 },
+      type: "Feature",
+      properties: { "Pillar Number": index + 1, height: 40 },
       geometry: {
-        type: 'Polygon',
+        type: "Polygon",
         coordinates: [pillar.coordinates[0]],
       },
       id: `floor${index}`,
     };
     arr.push(feature);
   }
-  fs.writeFileSync('CoordinatePillar.json', JSON.stringify(arr));
+  fs.writeFileSync("CoordinatePillar.json", JSON.stringify(arr));
 }
 
 /**
@@ -69,10 +69,10 @@ function createWall(coordinates, radius, numberOfPillars, height) {
     i += 4, ++count
   ) {
     let feature = {
-      type: 'Feature',
-      properties: { 'Wall Number': count, height: height },
+      type: "Feature",
+      properties: { "Wall Number": count, height: height },
       geometry: {
-        type: 'LineString',
+        type: "LineString",
         coordinates: [
           ...(i !== circle.coordinates[0].length - 1
             ? [
@@ -91,7 +91,7 @@ function createWall(coordinates, radius, numberOfPillars, height) {
     };
     arr.push(feature);
   }
-  fs.writeFileSync('CoordinateWall.json', JSON.stringify(arr));
+  fs.writeFileSync("CoordinateWall.json", JSON.stringify(arr));
 }
 
 /**
@@ -123,10 +123,10 @@ function createArc(
     ).coordinates[0].splice(0, numberOfPillars);
   for (let i = 0, count = 1; i < circle.length; ++count, i += 8) {
     let feature = {
-      type: 'Feature',
-      properties: { 'Arc Number': count },
+      type: "Feature",
+      properties: { "Arc Number": count },
       geometry: {
-        type: 'LineString',
+        type: "LineString",
         coordinates: [],
       },
       id: `wall${count}`,
@@ -145,7 +145,7 @@ function createArc(
     arr.push(feature);
   }
   // console.log(circle[i + j]);
-  fs.writeFileSync('CoordinateArc.json', JSON.stringify(arr));
+  fs.writeFileSync("CoordinateArc.json", JSON.stringify(arr));
 }
 
 const coordinates = [12.4922309, 41.8902102, 30]; //[long, lat]
